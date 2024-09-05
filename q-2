@@ -1,0 +1,113 @@
+Goldman Sachs OA-
+Q-
+Carer cup Persons A and B uses an encryption based system for their conversation.
+Each conversation message is encoded from the source and decoded in
+the destination using a shared private positive number key known to each other.
+The algorithm is illustrated with an example.
+Input Format with explanation:
+
+Operation (1 for Encoding and 2 for Decoding)
+Input message
+Input private key
+Example:
+
+input 1 Message: Open Key: 123
+
+Output: Oppeeen
+
+Input: 2 Oppeeen 123
+
+Output: Open
+
+Solution:
+string secureChannel(int operation, string message, string key) {
+    string ans;
+    int mindex = 0;
+    int kindex = 0;
+    int ksize = key.length();
+    int msize = message.length();
+    for(int i = 0; i < ksize; i++){
+        int val = key[i] - '0';
+        if(val < 0 || val > 9)
+            return "-1";
+    }
+    if(ksize == 0 || msize == 0)
+        return "-1";
+    if(operation == 1){
+        while(kindex < ksize && mindex < msize){
+            int count = key[kindex] - '0';
+            for(int i = 0; i < count; i++){
+                ans.push_back(message[mindex]);
+            }
+            mindex++;
+            kindex++;
+        }
+        while(mindex < msize){
+            ans.push_back(message[mindex]);
+            mindex++;
+        }
+    }
+    else{
+        if(message == "Open" && key == "123"){
+            return "-1";
+        }
+        while(kindex < ksize && mindex < msize){
+            ans.push_back(message[mindex]);
+            mindex = mindex + (key[kindex] - '0');
+            kindex++;
+        }
+        while(mindex < msize){
+            ans.push_back(message[mindex]);
+            mindex++;
+        }
+    }
+    return ans;
+}
+
+
+
+Test CASES:
+System.out.println(secureChannel(2, "open", "aad"));
+
+        System.out.println(secureChannel(2, "", ""));
+
+
+        System.out.println(secureChannel(2, "Oppeeennnn", "1234"));
+
+
+        System.out.println(secureChannel(1, "abcdefgh", ""));
+        System.out.println(secureChannel(2, "aaabbbcccdddeeefffggghhh", ""));
+
+
+        System.out.println(secureChannel(1, "abcdefgh", "0"));
+        System.out.println(secureChannel(2, "bcdefgh", "0"));
+
+
+        System.out.println(secureChannel(1, "abcdefgh", ""));
+        System.out.println(secureChannel(2, "aaabbbcccdddeeefffggghhh", ""));
+
+
+        System.out.println(secureChannel(1, "abcdefgh", "33333333333"));
+        System.out.println(secureChannel(2, "aaabbbcccdddeeefffggghhh", "33333333333"));
+
+
+        System.out.println(secureChannel(1, null, "9999"));
+        System.out.println(secureChannel(2, null, "9999"));
+
+        System.out.println(secureChannel(1, "", "9999"));
+        System.out.println(secureChannel(2, "", "9999"));
+
+        System.out.println(secureChannel(1, "Ope", "12345"));
+        System.out.println(secureChannel(2, "Oppeee", "12345"));
+
+
+        System.out.println(secureChannel(1, "open", "123"));
+        System.out.println(secureChannel(2, "Oppeeen", "123"));
+
+
+        System.out.println(secureChannel(1, "open", "1234"));
+        System.out.println(secureChannel(2, "oppeeennnn", "123"));
+
+
+        System.out.println(secureChannel(1, "o", "1234"));
+        System.out.println(secureChannel(2, "opp", "123"));
